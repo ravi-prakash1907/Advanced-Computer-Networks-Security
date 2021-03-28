@@ -4,7 +4,7 @@ from shareBox import client as receiver
 
 ######################
 
-class secreatShare():
+class cater():
     def __init__(self, menuOption=""):
         ###
         self.__mainMenu = "\n Menu\n"+"-"*6+"\n\n1. Send Files! \n2. Receive Files!"+menuOption
@@ -17,7 +17,7 @@ class secreatShare():
         return ch
 
     ## mainApp
-    def secreatShare(self):
+    def cater(self):
         ## making host to share files
         if self.choice == '1':
             Sender = sender.server()
@@ -49,9 +49,9 @@ if __name__ == '__main__':
 
     while flag:
         ## creating an instance
-        secreatShareApp = secreatShare(addOnMenu)
+        caterApp = cater(addOnMenu)
         ## sharing the files
-        flag = secreatShareApp.secreatShare()
+        flag = caterApp.cater()
 
         ## adding exit choice in menu
         if flag and firstRun:
@@ -60,7 +60,7 @@ if __name__ == '__main__':
             addOnMenu = "\n*  Any other key to exit!!"
         
         ## deleting current instence on Secreat Share App
-        del(secreatShareApp)
+        del(caterApp)
     
     ## exit prompt
     if firstRun:
