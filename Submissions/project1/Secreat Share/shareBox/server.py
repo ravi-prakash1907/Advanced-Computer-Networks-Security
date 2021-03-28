@@ -1,7 +1,4 @@
-"""
-Python code file for Server Side executables!
-File(s) will be shared from here
-"""
+"""   Server / Sender Side   """
 
 import os
 import json
@@ -17,34 +14,34 @@ class server:
 		########################
 
 		# Defining Hostname and Port
-		self.host = input("Specify host's URL or IP-Address (just press enter to use default): ")
+		self.host = input("Specify host's URL or IP-Address \n(just press enter to use default): ")
 		if self.host is None:
 			self.host = '0.0.0.0'
 		
 		# Creating Socket
-		self.sock_server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-		self.sock_server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+		self.sockServer = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+		self.sockServer.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 		
 		self.host = socket.gethostbyname(self.host)
-		self.port = 55555 #8080
+		self.port = 55555
 
 		# file(s') header
-		self.header_details = {}
+		self.headerDetails = {}
 		# list of files that are to be send
 		self.filelist = []
 
 		#########################
 
 		# Binding socket with the host and port
-		self.sock_server.bind((self.host, self.port))
-		self.sock_server.listen(5)
+		self.sockServer.bind((self.host, self.port))
+		self.sockServer.listen(5)
 
 		print('Server up at {0}'.format(self.host))
 		
 		#########################
 		
 		# Accepting the Connections of the client willing to connect
-		self.connection, self.address = self.sock_server.accept()
+		self.connection, self.address = self.sockServer.accept()
 		print(f"Connection from {self.address} (reciver) has been established!!!")
 
 
@@ -60,11 +57,11 @@ class server:
 		return filenames
 
 
-	def defining_header(self):
+	def definingHeader(self):
 		self.filelist = self.__loadFiles__()
 
 		i = 1
-		temp_header = {}
+		tempHeader = {}
 
 		# Defining Data Dictionary Meta Data
 		for filename in self.filelist:
@@ -72,44 +69,44 @@ class server:
 			filesize = os.stat(filename).st_size
 
 			# Defining header to send as MetaData
-			temp_header[i] = {
+			tempHeader[i] = {
 								'filename' : filename,
 								'filesize' : filesize,
 							}
 			i += 1
 
-		return temp_header
+		return tempHeader
 
 	def server(self):
 		
-		self.header_details = self.defining_header()	# Calling function to defining the Header
+		self.headerDetails = self.definingHeader()	# Calling function to defining the Header
 
 		st = time.time()
 
 		# Sending dictionary after converting into json object as byte data
-		self.connection.send(bytes(json.dumps(self.header_details).encode()))
-		print(self.header_details)
+		self.connection.send(bytes(json.dumps(self.headerDetails).encode()))
+		print(self.headerDetails)
 
 		# Looping over the list to send all the files in list
 		for filename in self.filelist:
 
 			# Opening and Reading the first chunk of file bytes
 			with open(filename, 'rb') as f:
-				file_data = f.read(CHUNK)
+				fileData = f.read(CHUNK)
 
 				# No Indentation Error Check
-				while file_data:
-					if not file_data:
+				while fileData:
+					if not fileData:
 						break
 					# Sending Data through the connection to the client
-					self.connection.send(file_data)
+					self.connection.send(fileData)
 					# Reading the other chunks of the file bytes
-					file_data = f.read(CHUNK)
+					fileData = f.read(CHUNK)
 
 			f.close()	# Closing the file
 
 		et = time.time()
-		print("\nFile(s) shared in {} seconds!".format((et-st)*1000))
+		print("\nFile(s) shared in {} seconds!".format(et-st))
 
 		self.connection.close()	# Closing the connection
 

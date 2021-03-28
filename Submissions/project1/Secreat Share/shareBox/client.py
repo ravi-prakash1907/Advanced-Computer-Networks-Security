@@ -12,7 +12,7 @@ class client:
 	def __init__(self):
 
 		# Creating Socket Object
-		self.sock_client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+		self.sockClient = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 		# Input Hostname and define Port
 		self.host = input("Host: ")
@@ -21,7 +21,7 @@ class client:
 		# Binding socket with the host and port
 		self.connected = False
 		try:
-			self.sock_client.connect((self.host, self.port))
+			self.sockClient.connect((self.host, self.port))
 			try:
 				os.mkdir('received')
 				print("Connected...")
@@ -42,14 +42,14 @@ class client:
 	def client(self):
 		if self.connected:		
 			# Receiving the Header for the Main Data
-			detail_header = self.sock_client.recv(CHUNK)
+			detailHeader = self.sockClient.recv(CHUNK)
 
 			# Loading the Json Data from the header received
-			detail_header = json.loads(detail_header)
-			print(detail_header)
+			detailHeader = json.loads(detailHeader)
+			print(detailHeader)
 
-			for i in range(1, len(detail_header) + 1):
-				filename = self.formatFileName(detail_header[str(i)]['filename'])
+			for i in range(1, len(detailHeader) + 1):
+				filename = self.formatFileName(detailHeader[str(i)]['filename'])
 
 				# Opening new file to write the receiving data
 				with open(filename, 'wb') as f:
@@ -57,11 +57,11 @@ class client:
 
 					# Writing the received data to the file opened
 					# Checking If the file size exceeds the original file size
-					while detail_header[str(i)]['filesize'] > f.tell():
-						file_data = self.sock_client.recv(CHUNK)
-						if not file_data:	# Checking if the File Ends
+					while detailHeader[str(i)]['filesize'] > f.tell():
+						fileData = self.sockClient.recv(CHUNK)
+						if not fileData:	# Checking if the File Ends
 							break
-						f.write(file_data)
+						f.write(fileData)
 					print(f.tell())
 
 				f.close()
@@ -70,4 +70,4 @@ class client:
 		
 
 		###########
-		self.sock_client.close()	# Closing the Connection
+		self.sockClient.close()	# Closing the Connection
