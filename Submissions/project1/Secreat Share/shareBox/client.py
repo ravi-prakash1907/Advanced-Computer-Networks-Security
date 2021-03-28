@@ -1,4 +1,4 @@
-"""   Client/Receiver Side   """
+"""   Client / Receiver Side   """
 
 import os
 import json
@@ -15,7 +15,9 @@ class client:
 		self.sockClient = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 		# Input Hostname and define Port
-		self.host = input("Host: ")
+		self.host = input("\nHost Address / URL \n(just press enter to use default): ")
+		if self.host is None:
+			self.host = '127.0.0.1'
 		self.port = 55555
 
 		# Binding socket with the host and port
@@ -46,14 +48,14 @@ class client:
 
 			# Loading the Json Data from the header received
 			detailHeader = json.loads(detailHeader)
-			print(detailHeader)
+			#print(detailHeader)
 
 			for i in range(1, len(detailHeader) + 1):
 				filename = self.formatFileName(detailHeader[str(i)]['filename'])
 
 				# Opening new file to write the receiving data
 				with open(filename, 'wb') as f:
-					print("saving ",filename)
+					print("Saving {}".format(filename), end=" ")
 
 					# Writing the received data to the file opened
 					# Checking If the file size exceeds the original file size
@@ -62,11 +64,11 @@ class client:
 						if not fileData:	# Checking if the File Ends
 							break
 						f.write(fileData)
-					print(f.tell())
+					print("(size {})".format(f.tell()))
 
 				f.close()
 
-			print("File(s) received...")
+			print("\nFile(s) received...\n"+"-"*12)
 		
 
 		###########

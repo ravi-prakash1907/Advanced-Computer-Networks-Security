@@ -14,9 +14,9 @@ class server:
 		########################
 
 		# Defining Hostname and Port
-		self.host = input("Specify host's URL or IP-Address \n(just press enter to use default): ")
+		self.host = input("\nSpecify host's URL or IP-Address \n(just press enter to use default): ")
 		if self.host is None:
-			self.host = '0.0.0.0'
+			self.host = '127.0.0.1'
 		
 		# Creating Socket
 		self.sockServer = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -76,16 +76,24 @@ class server:
 			i += 1
 
 		return tempHeader
+	
+	def printHeader(self):
+		print("\nSharing:\n") # printing from next line
+		print("{")
+		for fileHeaderIndex in self.headerDetails:
+			if int(fileHeaderIndex) != len(self.headerDetails):
+				print("\t{}: {},".format(str(fileHeaderIndex), self.headerDetails[fileHeaderIndex]))
+		print("\t{}: {}".format(str(fileHeaderIndex), self.headerDetails[fileHeaderIndex]))
+		print("}")
 
-	def server(self):
-		
+
+	def server(self):		
 		self.headerDetails = self.definingHeader()	# Calling function to defining the Header
-
 		st = time.time()
 
 		# Sending dictionary after converting into json object as byte data
 		self.connection.send(bytes(json.dumps(self.headerDetails).encode()))
-		print(self.headerDetails)
+		self.printHeader()
 
 		# Looping over the list to send all the files in list
 		for filename in self.filelist:
@@ -106,7 +114,7 @@ class server:
 			f.close()	# Closing the file
 
 		et = time.time()
-		print("\nFile(s) shared in {} seconds!".format(et-st))
+		print("\nFile(s) shared in {} seconds!\n".format(et-st)+"-"*12)
 
 		self.connection.close()	# Closing the connection
 
