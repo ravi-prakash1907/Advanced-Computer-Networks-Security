@@ -9,7 +9,7 @@ Some key features are:
 2. Capable to acheive the speed upto **200mbps**  
 3. Userfriendly application  
 4. Can be accessed through simple commands  
-5. 5. A [python package is also available](https://github.com/ravi-prakash1907/cater) for the same that can be installed using following command:  
+5. A [python package is also available](https://github.com/ravi-prakash1907/cater) for the same that can be installed using following command:  
 ```sh
 pip install git+https://github.com/ravi-prakash1907/cater.git
 ```  
