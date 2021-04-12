@@ -28,3 +28,12 @@ All of these projects are tipically based on the networking concepts only. Along
 2. Primarily made to access through terminal/command line.  
 3. It works on **TCP** i.e. Transmission Control Protocol.  
 4. Visit [here](TCP%20Chatroom/README.md) to know it's usage.  
+
+### Own Ideas (assignments)  
+
+#### 1. Random Coin [Toss](Toss/)
+1. It's based on the client-server architecture.  
+2. Whenever a user (client) connects to the server, server tosses a coin and tells the outcome.  
+3. It works on a random number generation technique using `random` odule of _python_.  
+4. The server keeps on running, while client gets disconnected just after getting the outcome.  
+5. Visit [here](Toss/) to know it's usage.  
