@@ -8,5 +8,5 @@ This is a dummy appication to demonstrate the working of a chatroom. This chatro
 1. run the server using ```python3 server.py```  
 2. open a command line terminal and run ```python3 client.py```  
 3. join the chatroom as a new client using by providing your nickname  
-4. You can run as many inctances of the ```client.py``` as you want to join the chatroom!!  
+4. You can run as many instances of the ```client.py``` as you want to join the chatroom!!  
 5. Enjoy the chatting!!
